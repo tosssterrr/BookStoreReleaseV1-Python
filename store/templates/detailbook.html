@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %} {{ block.super }} - {{ book.name }} {% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb" class="shadow pb-2">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+        {% for obj in categories %}
+        <li class="breadcrumb-item"><a href="/search/?q=&category={{ obj.slug }}">{{ obj.name }}</a></li>
+        {% endfor %}
+
+    </ol>
+</nav>
+<div class="row pt-3">
+    <div class="col-md-4">
+        {% if book.img %}
+        <img src="{{ book.img.url }}" class="img-fluid">
+        {% else %}
+        <img src="https://cdn1.ozone.ru/multimedia/1007119597.jpg" class="img-fluid">
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <h2>{{ book.name }}</h2>
+        <p class="h4"><a href="{{ book.author.get_absolute_url }}" class="text-dark">{{ book.author.name }}</a></p>
+        <h3 class="card-text">Цена: {{ book.price }} ₽</h3>
+        <div class="w-25">
+            <form action="{% url 'cart:cart_add' book.pk %}" method="post"> {% csrf_token %}
+                {{ cart_book_form }}
+                <input type="submit" class="btn btn-primary" value="Добавить в корзину">
+            </form>
+        </div>
+        <p>{{ book.description }}</p>
+    </div>
+    <p class="card-text text-center">Описание: </p>
+    <p> Серия: <a href="#">{{ book.series }}</a> </p>
+    <p> Издательство: <a href="#">{{ book.house }} </a> </p>
+    <p> Год: <a href="#">{{ book.year }}</a></p>
+</div>
+{% endblock %}

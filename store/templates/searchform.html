@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %} {{ block.super }} - {{ title }} {% endblock %}
+{% block sidebar %}
+{{ block.super }}
+<div>
+    <form class="form-control" action="{% url 'search' %}" method="get" id="search">
+        <p class="text-center">Фильтры</p>
+        <input type="search" class="form-control form-control-dark" name="q" value="{{ q }}" placeholder="Поиск..." aria-label="Search" autocomplete="off">
+
+        <p class="text-center">Цены</p>
+        <div class="input-group">
+            <span class="input-group-text">От</span>
+            <input name="min" value="{{ min }}" type="number" min="0" max="10000" aria-label="0" class="form-control">
+            <span class="input-group-text">До</span>
+            <input name='max' value="{{ max }}" type="number" min="0" max="10000" aria-label="10000" class="form-control">
+        </div>
+        <p class="text-center">Год выпуска</p>
+        <div class="input-group">
+            <span class="input-group-text">От</span>
+            <input name="minyear" value="{{ minyear }}" type="number" min="1814" max="2022" aria-label="0" class="form-control">
+            <span class="input-group-text">До</span>
+            <input name='maxyear' value="{{ maxyear }}" type="number" min="1814" max="2022" aria-label="10000" class="form-control">
+        </div>
+        <p class="text-center">Автор</p>
+        <div class="input-group">
+            <input name='author' value="{{ author }}" type="text" aria-label="10000" class="form-control" placeholder="Найти автора">
+        </div>
+        <p class="text-center">Категории</p>
+        <div class="input-group mb-3">
+            <select class="form-select" id="inputGroupSelect01" form="search" name="category">
+                <option selected>Все</option>
+                {% for node in nodes %}
+                <option value="{{node.slug}}">{{ node.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" value="q" class="mt-1 btn btn-primary text-center mx-auto">Применить фильтры</button>
+
+    </form>
+
+
+</div>
+{% endblock %}
+{% block content %}
+<h2>{{title}}</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for book in books %}
+    <div class="col">
+        <div class="card"style="width: 12rem;">
+            <a href="{{ book.get_absolute_url }}" class="h3 card-title">
+                {% if book.img %}
+                        <img src="{{ book.img.url }}" class="img mx-auto" width="190">
+                        {% else %}
+                        <img src="https://cdn1.ozone.ru/multimedia/1007119597.jpg" class="img mx-auto" width="190">
+                        {% endif %}
+            </a>
+            <div class="card-body">
+                <a href="{{ book.get_absolute_url }}" class="card-title text-dark">{{ book.name }}</a>
+                <p class="card-text">{{ book.author.name }}</p>
+
+            </div>
+            <div class="card-footer text-center nowrap justify-content-xl-between">
+
+                {{ book.price }}
+                <button class="btn btn-primary">Купить</button>
+
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

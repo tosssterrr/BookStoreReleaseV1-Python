@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %} {{ block.super }} - {{ title }} {% endblock %}
+{% block content %}
+    <h2>{{title}}</h2>
+     <div class="row">
+        {% for book in books %}
+            <div class="col ">
+                <div class="card" style="width: 12rem;">
+                    <a href="{{ book.get_absolute_url }}" class="h3 card-title mx-auto">
+                        {% if book.img %}
+                        <img src="{{ book.img.url }}" class="img mx-auto" width="132">
+                        {% else %}
+                        <img src="https://cdn1.ozone.ru/multimedia/1007119597.jpg" class="img mx-auto" width="132">
+                        {% endif %}
+                    </a>
+                    <div class="card-body">
+                        <a href="{{ book.get_absolute_url }}" class="card-title text-dark">{{ book.name|truncatechars_html:30 }}</a>
+                        <p class="card-text">{{ book.author.name }}</p>
+
+                    </div>
+                    <div class="card-footer text-center nowrap justify-content-xl-between">
+
+                                {{ book.price }}
+                                <a class="btn btn-primary" href="{{ book.get_absolute_url }}">Купить</a>
+
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+     </div>
+{% endblock %}

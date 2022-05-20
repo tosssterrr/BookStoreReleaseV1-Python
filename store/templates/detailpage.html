@@ -1,0 +1,90 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+
+    <link rel="icon" href="/static/img/main_icon.jpg" sizes="512x512">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.js"></script>
+
+    <title> Книгоед - Главная</title>
+</head>
+<body>
+<header class="p-3 bg-dark text-white">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
+                <li><a href="/admin/" class="nav-link px-2 text-white">Admin</a></li>
+            </ul>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="/book_search/" method="get">
+                <input type="search" class="form-control form-control-dark" name="name" placeholder="Поиск..." autocomplete="off">
+
+            </form>
+
+            <div class="text-end">
+                <a class="btn btn-warning" href="/cart">
+                    Корзина
+                </a>
+            </div>
+            <span class="navbar-text">
+           <a class="m-1 btn btn-primary" href="/accounts/profile/">Личный Кабинет</a><a class="m-1 btn btn-danger" href="/accounts/logout">Выход</a>
+
+                 <a class="m-1 btn btn-primary" href="/accounts/login">Авторизация</a>
+        </span>
+        </div>
+    </div>
+</header>
+
+{% verbatim %}
+<div class="container mx-auto" id="books_current">
+    <div class="col-md-9 mx-auto">
+        <nav aria-label="breadcrumb" class="shadow pb-2">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Главная</a></li>
+                <li class="breadcrumb-item"><a v-bind:href="'/?search=' + book.category_name">{{ book.category_name }}</a></li>
+            </ol>
+        </nav>
+        <div class="row pt-3">
+            <div class="col-md-4">
+                <img v-bind:src="book.img" class="img-fluid" id="img" v-bind:data-id="book.img">
+            </div>
+            <div class="col-md-8">
+                <h2 id="name" v-bind:data-id="book.name">{{ book.name }}</h2>
+                <p class="h4 pt-1"><a v-bind:href="'/book_search/?=name&author=' + book.author_name" class="text-dark">{{ book.author_name }}</a></p>
+                <h4 class="card-text pt-1" id="price" v-bind:data-id="book.price">Цена: {{ book.price }} ₽</h4>
+                <div class="w-25 pt-1">
+
+                    <button class="btn btn-primary" id="plus" v-bind:data-id="book.id">Добавить в корзину </button>
+
+                </div>
+                <h5 class="card-text pt-2">Рейтинг - {{ book.rating}} </h5>
+                <h5 class="card-text pt-2">Оценок "мне нравится" - {{ book.annotated_likes}} </h5>
+            </div>
+            <p class="card-text pt-5">Описание: {{ book.description }}</p>
+            <p> Серия: <a href="#">{{ book.series }}</a> </p>
+            <p> Издательство: <a href="#">{{ book.house }} </a> </p>
+            <p> Год: <a href="#">{{ book.year }}</a></p>
+        </div>
+    </div>
+</div>
+{% endverbatim %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/cart.js"></script>
+<script type="text/javascript" src="/static/js/detailpage.js"></script>
+
+</body>
+</html>
